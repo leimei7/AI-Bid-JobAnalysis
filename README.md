@@ -1,8 +1,12 @@
 # 数据采集与AI分析系统
 
+## 技术栈
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg) ![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-green.svg) ![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-orange.svg) ![DeepSeek](https://img.shields.io/badge/DeepSeek-API-purple.svg) ![Jieba](https://img.shields.io/badge/Jieba-分词-yellow.svg) ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.0%2B-blueviolet.svg)
+
 ## 项目简介
 
-本项目是一个**复合数据分析系统**，主要用于采集政府采购公告数据，通过AI技术进行结构化处理，结合企业信息（天眼查）和招聘数据（Boss直聘）进行深度关联分析，最终提供高效的搜索和展示功能。
+本项目是一个**复合数据分析系统**，主要用于采集政府采购公告数据，通过AI技术进行结构化处理，结合企业信息（天眼查）和招聘数据（Boss直聘）进行深度关联分析，并提供高效的搜索和展示功能。
 
 **核心价值**：将招投标项目与企业招聘需求关联，分析企业在中标后的人才需求变化，为市场分析、行业趋势研究提供数据支持。
 
