@@ -1,0 +1,236 @@
+/* 基础布局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden; /* 防止水平滚动 */
+    min-height: 100vh;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+/* 左侧边栏样式 */
+.sidebar {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    border-right: 1px solid #eee;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    overflow-y: auto; /* 侧边栏内容过多时可滚动 */
+}
+
+.sidebar h5 {
+    margin-bottom: 1.5rem;
+    color: #212529;
+    font-weight: 600;
+}
+
+/* 右侧内容区样式 */
+.content-area {
+    height: 100vh; /* 固定高度，确保占满视口 */
+    overflow-y: auto; /* 内容区独立滚动 */
+    padding: 2rem;
+    background-color: #ffffff;
+}
+
+/* 响应式布局调整 */
+@media (max-width: 768px) {
+    .sidebar {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+        padding: 1rem;
+    }
+
+    .content-area {
+        height: auto; /* 小屏幕下自动适应内容高度 */
+        max-height: none;
+        overflow-y: visible;
+        padding: 1rem;
+    }
+}
+
+/* 表单样式优化 */
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.form-control, .form-select {
+    margin-bottom: 1rem;
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+/* 热门搜索标签样式 */
+h6 {
+    margin-bottom: 1rem;
+    color: #212529;
+    font-weight: 600;
+}
+
+.badge.bg-secondary {
+    background-color: #6c757d;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.badge.bg-secondary:hover {
+    background-color: #0d6efd;
+    transform: translateY(-2px);
+}
+
+/* 搜索结果样式 */
+.filters {
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+}
+
+.result-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-color: #0d6efd;
+}
+
+.result-card .card-body {
+    padding: 1.25rem;
+}
+
+.card-title {
+    color: #212529;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.project-code {
+    color: #666;
+    font-size: 0.9em;
+    margin-left: 0.5rem;
+}
+
+.card-text {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+/* 加载状态样式 */
+#loading-indicator {
+    margin: 2rem 0;
+}
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* 空状态和错误提示样式 */
+.alert {
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* 其他交互样式 */
+.hover-text:hover {
+    color: #0056b3;
+}
+
+.hover-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background-color: #f8f9fa;
+}
+
+.transition-colors {
+    transition: color 0.3s ease;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.module-title {
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 5px;
+}
+
+.empty-state {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.hover-color {
+    transition: color 0.3s ease;
+}
+
+.hover-color:hover {
+    color: #28a745;
+}
+
+.info-card {
+    background-color: #f8f9fa;
+    transition: all 0.2s ease;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.info-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.sub-title {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}

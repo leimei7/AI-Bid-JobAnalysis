@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招标信息搜索</title>
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid row g-0">
+        <!-- 左侧搜索栏 -->
+        <div class="col-3 sidebar bg-light p-3">
+            <h5>招标信息搜索</h5>
+            <form id="searchForm" class="mb-4">
+                <div class="mb-3">
+                    <label for="keyword" class="form-label">关键词</label>
+                    <input type="text" class="form-control" id="keyword" placeholder="输入关键词">
+                </div>
+                <div class="mb-3">
+                    <label for="type" class="form-label">公告类型</label>
+                    <select class="form-select" id="type">
+                        <option value="">全部</option>
+                        <option value="公开招标公告">公开招标</option>
+                        <option value="询价公告">询价公告</option>
+                        <option value="竞争性谈判公告">竞争性谈判</option>
+                        <option value="单一来源公告和公示">单一来源</option>
+                        <option value="资格预审公告">资格预审</option>
+                        <option value="邀请招标公告">邀请公告</option>
+                        <option value="中标公告">中标公告</option>
+                        <option value="更正公告">更正公告</option>
+                        <option value="其他公告">其他公告</option>
+                        <option value="竞争性磋商公告">竞争性磋商</option>
+                        <option value="成交公告">成交公告</option>
+                        <option value="终止公告">终止公告</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="startTime" class="form-label">开始时间</label>
+                    <input type="date" class="form-control" id="startTime">
+                </div>
+                <div class="mb-3">
+                    <label for="endTime" class="form-label">截至时间</label>
+                    <input type="date" class="form-control" id="endTime">
+                </div>
+                <div class="mb-3">
+                    <label for="province" class="form-label">省份</label>
+                    <input type="text" class="form-control" id="province" placeholder="例如：四川、北京">
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="onlyImportant">
+                    <label class="form-check-label" for="onlyImportant">只显示重要信息</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">搜索</button>
+            </form>
+
+
+
+            <div class="mt-4">
+                <h6>热门搜索</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    <span style="transition: all 0.3s ease; --tw-bg-opacity: 0.8; cursor: pointer;" class="badge bg-secondary cursor-pointer" onclick="searchByTag('智慧城市')">智慧城市</span>
+                    <span style="transition: all 0.3s ease; --tw-bg-opacity: 0.8; cursor: pointer;" class="badge bg-secondary cursor-pointer" onclick="searchByTag('大数据')">大数据</span>
+                    <span style="transition: all 0.3s ease; --tw-bg-opacity: 0.8; cursor: pointer;" class="badge bg-secondary cursor-pointer" onclick="searchByTag('信息化')">信息化</span>
+                    <span style="transition: all 0.3s ease; --tw-bg-opacity: 0.8; cursor: pointer;" class="badge bg-secondary cursor-pointer" onclick="searchByTag('工程建设')">工程建设</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧结果展示区 -->
+        <div class="col-9 p-4 content-area" id="contentArea">
+            <div class="text-center py-5">
+                <h2>欢迎使用招标信息搜索系统</h2>
+                <p class="lead">左侧输入关键词/选择类型/时间范围，右侧将显示搜索结果</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/bootstrap.bundle.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">欢迎使用搜索网站</h1>
+    <p class="lead">这是一个基于FastAPI和Bootstrap5的搜索演示网站。</p>
+    <hr class="my-4">
+    <p>您可以在左侧搜索框中输入关键词进行搜索，也可以通过分类筛选内容。</p>
+</div>
+
+<div class="mt-5">
+    <h3>推荐内容</h3>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for item in mock_data[:4] %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                    <a href="/item/{{ item.id }}" class="btn btn-primary">查看详情</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">{{ item.date }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}    

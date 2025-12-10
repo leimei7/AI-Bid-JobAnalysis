@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>项目详情 - {{ item.project_name }}</title>
+		<link href="/static/bootstrap.min.css" rel="stylesheet">
+		<script src="/static/bootstrap.bundle.min.js"></script>
+		<style>
+			body {
+			            overflow: hidden;
+			            margin: 0;
+			            padding: 0;
+			        }
+			        .container-fluid {
+			            padding-left: 15px;
+			            padding-right: 15px;
+			        }
+			        .btn-container {
+			            display: flex;
+			            justify-content: space-between;
+			            align-items: center;
+			            height: 60px;
+			        }
+			        .content-wrapper {
+			            height: calc(100vh - 80px);
+			            display: flex;
+			            gap: 15px;
+			        }
+			        .content-column {
+			            flex: 1;
+			            height: 100%;
+			            padding: 0;
+			        }
+			        .card {
+			            border-radius: 0.5rem;
+			            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+			            height: 100%;
+			            display: flex;
+			            flex-direction: column;
+			            margin: 0;
+			        }
+			        .card-header {
+			            background-color: #f8f9fa;
+			            border-bottom: 1px solid #e9ecef;
+			            padding: 0.75rem 1rem;
+			        }
+			        .card-body {
+			            flex: 1;
+			            padding: 1rem;
+			            overflow-y: auto;
+			        }
+			        /* 隐藏滚动条但保留滚动功能 */
+			        .card-body::-webkit-scrollbar {
+			            display: none;
+			        }
+			        .card-body {
+			            -ms-overflow-style: none;
+			            scrollbar-width: none;
+			        }
+			        .badge-important {
+			            background-color: #dc3545;
+			        }
+			        .badge-normal {
+			            background-color: #6c757d;
+			        }
+			        .empty-content {
+			            display: flex;
+			            flex-direction: column;
+			            justify-content: center;
+			            align-items: center;
+			            height: 100%;
+			            text-align: center;
+			        }
+			        .data-item {
+			            margin-bottom: 0.75rem;
+			        }
+			        .section-title {
+			            margin: 1.5rem 0 0.75rem;
+			            padding-bottom: 0.5rem;
+			            border-bottom: 1px solid #eee;
+			            font-weight: 600;
+			        }
+			        .match-badge {
+			            font-size: 0.75 font-size: 0.75rem;
+			            padding: 0.25rem 0.5rem;
+			        }
+			        @media (max-width: 992px) {
+			            .content-wrapper {
+			                flex-direction: column;
+			                height: auto;
+			                max-height: calc(100vh - 80px);
+			                overflow-y: auto;
+			            }
+			            .content-column {
+			                height: 400px;
+			                margin-bottom: 15px;
+			            }
+			        }
+		</style>
+	</head>
+	<body>
+		<div class="container-fluid py-3">
+			<!-- 顶部按钮区域 -->
+			<div class="row mb-2">
+				<div class="col-12">
+					<div class="btn-container">
+						<button class="btn btn-primary" onclick="window.close()">
+							<i class="bi bi-arrow-left"></i> 返回搜索
+						</button>
+
+						<div class="d-flex gap-1">
+							{% if item.isImportant %}
+							<button id="markImportantBtn" class="btn btn-outline-danger" style="display: none; border-radius: 0.375rem;">
+								<i class="bi bi-star"></i> 标记重点
+							</button>
+							<button id="cancelImportantBtn" class="btn btn-outline-secondary" style="border-radius: 0.375rem;">
+								<i class="bi bi-star-fill"></i> 取消重点
+							</button>
+							{% else %}
+							<button id="markImportantBtn" class="btn btn-outline-danger" style="border-radius: 0.375rem;">
+								<i class="bi bi-star"></i> 标记重点
+							</button>
+							<button id="cancelImportantBtn" class="btn btn-outline-secondary" style="display: none; border-radius: 0.375rem;">
+								<i class="bi bi-star-fill"></i> 取消重点
+							</button>
+							{% endif %}
+						</div>
+
+						<button id="downloadJsonBtn" class="btn btn-outline-info" style="border-radius: 0.375rem;">
+							<i class="bi bi-download"></i> 下载JSON
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- 内容区域 -->
+			<div class="content-wrapper">
+				<!-- 左侧项目信息 -->
+				<div class="content-column">
+					<div class="card">
+						<div class="card-header">
+							<h5 class="mb-0">项目信息</h5>
+						</div>
+						<div class="card-body">
+							<div class="mb-3">
+								<h4 class="card-title">{{ item.project_name }}</h4>
+								<span class="badge badge-important">{{ item.type }}</span>
+								<span class="badge bg-secondary">{{ item.bidSort }}</span>
+							</div>
+
+							<dl class="row">
+								<dt class="col-sm-4">项目编号：</dt>
+								<dd class="col-sm-8">{{ item.project_code }}</dd>
+
+								<dt class="col-sm-4">公告时间：</dt>
+								<dd class="col-sm-8">{{ item.json_data.公告时间 }}</dd>
+
+								<dt class="col-sm-4">省份：</dt>
+								<dd class="col-sm-8">{{ item.province }}</dd>
+
+								<dt class="col-sm-4">采购单位：</dt>
+								<dd class="col-sm-8">{{ item.json_data.采购单位 }}</dd>
+							</dl>
+
+							{% if item.json_data.采购人信息 %}
+							<h6 class="section-title">采购人信息</h6>
+							<dl class="row">
+								<dt class="col-sm-4">名称：</dt>
+								<dd class="col-sm-8">{{ item.json_data.采购人信息.名称 }}</dd>
+
+								<dt class="col-sm-4">地址：</dt>
+								<dd class="col-sm-8">{{ item.json_data.采购人信息.地址 }}</dd>
+
+								<dt class="col-sm-4">联系方式：</dt>
+								<dd class="col-sm-8">{{ item.json_data.采购人信息.联系方式 }}</dd>
+							</dl>
+							{% endif %}
+
+							{% if item.json_data.项目联系方式 %}
+							<h6 class="section-title">项目联系方式</h6>
+							<dl class="row">
+								<dt class="col-sm-4">联系人：</dt>
+								<dd class="col-sm-8">{{ item.json_data.项目联系方式.名称 }}</dd>
+
+								<dt class="col-sm-4">联系电话：</dt>
+								<dd class="col-sm-8">{{ item.json_data.项目联系方式.联系方式 }}</dd>
+
+								{% if item.json_data.项目联系方式.address %}
+								<dt class="col-sm-4">地址：</dt>
+								<dd class="col-sm-8">{{ item.json_data.项目联系方式.address }}</dd>
+								{% endif %}
+							</dl>
+							{% endif %}
+
+							{% if item.json_data.采购代理机构信息 %}
+							<h6 class="section-title">采购代理机构</h6>
+							<dl class="row">
+								<dt class="col-sm-4">名称：</dt>
+								<dd class="col-sm-8">{{ item.json_data.采购代理机构信息.名称 }}</dd>
+
+								<dt class="col-sm-4">地址：</dt>
+								<dd class="col-sm-8">{{ item.json_data.采购代理机构信息.地址 }}</dd>
+
+								<dt class="col-sm-4">联系方式：</dt>
+								<dd class="col-sm-8">{{ item.json_data.采购代理机构信息.联系方式 }}</dd>
+							</dl>
+							{% endif %}
+
+							{% if item.json_data.url %}
+							<a href="{{ item.json_data.url }}" target="_blank" class="btn btn-sm btn-primary mt-3">
+								<i class="bi bi-link"></i> 查看原文
+							</a>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+
+				<!-- 中间中标公司信息 -->
+				<div class="content-column">
+					<div class="card">
+						<div class="card-header">
+							<h5 class="mb-0">中标公司信息</h5>
+						</div>
+						<div class="card-body">
+							{% if item.json_data.中标供应商 and item.json_data.中标供应商.名称 %}
+							<div class="mb-3">
+								<h4 class="card-title">{{ item.json_data.中标供应商.名称 }}</h4>
+								<span class="text-success font-weight-bold">中标金额：{{ item.json_data.中标供应商.中标金额 }}</span>
+							</div>
+
+							<dl class="row">
+								<dt class="col-sm-4">公司地址：</dt>
+								<dd class="col-sm-8">{{ item.json_data.中标供应商.地址 }}</dd>
+
+								<dt class="col-sm-4">评审得分：</dt>
+								<dd class="col-sm-8">{{ item.json_data.中标供应商.评审得分 }}</dd>
+							</dl>
+
+							{% if item.json_data.中标供应商.企业详情 %}
+							<h6 class="section-title">企业基本信息</h6>
+							<dl class="row">
+								<dt class="col-sm-4">统一社会信用代码：</dt>
+								<dd class="col-sm-8">{{ item.json_data.中标供应商.企业详情.credit_code }}</dd>
+
+								<dt class="col-sm-4">法定代表人：</dt>
+								<dd class="col-sm-8">{{ item.json_data.中标供应商.企业详情.legal_person }}</dd>
+
+								<dt class="col-sm-4">成立日期：</dt>
+								<dd class="col-sm-8">{{ item.json_data.中标供应商.企业详情.establishment_date }}</dd>
+
+								<dt class="col-sm-4">注册资本：</dt>
+								<dd class="col-sm-8">{{ item.json_data.中标供应商.企业详情.registered_capital }}</dd>
+
+								<dt class="col-sm-4">企业状态：</dt>
+								<dd class="col-sm-8">{{ item.json_data.中标供应商.企业详情.status }}</dd>
+
+								<dt class="col-sm-4">联系方式：</dt>
+								<dd class="col-sm-8">{{ item.json_data.中标供应商.企业详情.phone }}</dd>
+
+								<dt class="col-sm-4">电子邮箱：</dt>
+								<dd class="col-sm-8">{{ item.json_data.中标供应商.企业详情.email }}</dd>
+							</dl>
+
+							{% if item.json_data.中标供应商.企业详情.introduction %}
+							<h6 class="section-title">企业简介</h6>
+							<p class="text-muted">
+								{{ item.json_data.中标供应商.企业详情.introduction }}
+							</p>
+							{% endif %}
+
+							<h6 class="section-title">知识产权信息</h6>
+							<div class="row mb-3">
+								<div class="col-12">
+									{% if item.json_data.中标供应商.企业详情.专利 %}
+									<span class="badge bg-info me-2">专利 {{ item.json_data.中标供应商.企业详情.专利|length }}项</span>
+									{% endif %}
+
+									{% if item.json_data.中标供应商.企业详情.商标 %}
+									<span class="badge bg-primary me-2">商标 {{ item.json_data.中标供应商.企业详情.商标|length }}项</span>
+									{% endif %}
+
+									{% if item.json_data.中标供应商.企业详情.软著 %}
+									<span class="badge bg-success">软件著作权 {{ item.json_data.中标供应商.企业详情.软著|length }}项</span>
+									{% endif %}
+								</div>
+							</div>
+
+							<!-- 专利详情展示 -->
+							<div class="mb-4">
+								<h6 class="fw-semibold text-muted mb-2">专利详情：</h6>
+								{% if item.json_data.中标供应商.企业详情.专利 and item.json_data.中标供应商.企业详情.专利|length > 0 %}
+								<div class="ms-2">
+									{% for patent in item.json_data.中标供应商.企业详情.专利 %}
+									<div class="border rounded p-3 mb-2 bg-light">
+										<div class="mb-1">
+											<span class="fw-medium">名称：</span>{{ patent.patentName }}
+										</div>
+										<div class="text-sm text-secondary">
+											<span>类型：{{ patent.patentType }} | </span>
+											<span>状态：{{ patent.lprs }} | </span>
+											<span>申请时间：{{ patent.applicationPublishTime }} | </span>
+											<span>专利号：{{ patent.appnumber }}</span>
+										</div>
+									</div>
+									{% endfor %}
+								</div>
+								{% else %}
+								<p class="text-secondary ms-2">无专利信息</p>
+								{% endif %}
+							</div>
+
+							<!-- 商标详情展示 -->
+							<div class="mb-4">
+								<h6 class="fw-semibold text-muted mb-2">商标详情：</h6>
+								{% if item.json_data.中标供应商.企业详情.商标 and item.json_data.中标供应商.企业详情.商标|length > 0 %}
+								<div class="ms-2">
+									{% for trademark in item.json_data.中标供应商.企业详情.商标 %}
+									<div class="border rounded p-3 mb-2 bg-light">
+										<div class="mb-1">
+											<span class="fw-medium">名称：</span>
+											{% if trademark.tmName %}{{ trademark.tmName }}{% else %}未命名商标{% endif %}
+										</div>
+										<div class="text-sm text-secondary">
+											<span>类别：{{ trademark.intCls }} | </span>
+											<span>状态：{{ trademark.status }} | </span>
+											<span>申请时间：{{ trademark.appDate }}</span>
+										</div>
+									</div>
+									{% endfor %}
+								</div>
+								{% else %}
+								<p class="text-secondary ms-2">无商标信息</p>
+								{% endif %}
+							</div>
+
+							<!-- 软件著作权详情展示 -->
+							<div>
+								<h6 class="fw-semibold text-muted mb-2">软件著作权详情：</h6>
+								{% if item.json_data.中标供应商.企业详情.软著 and item.json_data.中标供应商.企业详情.软著|length > 0 %}
+								<div class="ms-2">
+									{% for copyright in item.json_data.中标供应商.企业详情.软著 %}
+									<div class="border rounded p-3 mb-2 bg-light">
+										<div class="mb-1">
+											<span class="fw-medium">名称：</span>{{ copyright.fullname }}
+										</div>
+										<div class="text-sm text-secondary">
+											<span>版本：{{ copyright.version }} | </span>
+											<span>登记号：{{ copyright.regnum }} | </span>
+											<span>登记时间：{{ copyright.regtime }}</span>
+										</div>
+									</div>
+									{% endfor %}
+								</div>
+								{% else %}
+								<p class="text-secondary ms-2">无软件著作权信息</p>
+								{% endif %}
+							</div>
+							{% else %}
+							<div class="empty-content">
+								<i class="bi bi-info-circle text-muted" style="font-size: 3rem;"></i>
+								<p class="text-muted mt-3">暂无中标公司信息</p>
+							</div>
+							{% endif %}
+							{% else %}
+							<div class="empty-content">
+								<i class="bi bi-info-circle text-muted" style="font-size: 3rem;"></i>
+								<p class="text-muted mt-3">暂无中标公司信息</p>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+
+				<!-- 右侧招聘信息 -->
+				<div class="content-column">
+					<div class="card">
+						<div class="card-header">
+							<h5 class="mb-0">招聘信息</h5>
+						</div>
+						<div class="card-body">
+							{% if item.json_data.招聘岗位 and item.json_data.招聘岗位|length > 0 %}
+							<ul class="list-group">
+								{% for position in item.json_data.招聘岗位 %}
+								<li class="list-group-item mb-2">
+									<div class="d-flex justify-content-between align-items-start">
+										<h6>{{ position.职位 }}</h6>
+										<span class="badge match-badge {% if position.匹配度 == '高' %}bg-success{% elif position.匹配度 == '中' %}bg-warning{% else %}bg-secondary{% endif %}">
+											{{ position.匹配度 }}匹配
+										</span>
+									</div>
+
+									<p class="text-muted mb-1">薪资：{{ position.薪资 }}</p>
+
+									{% if position.技能要求 %}
+									<div class="mb-2">
+										<small class="text-dark">技能要求：</small>
+										<small class="text-muted">{{ position.技能要求 }}</small>
+									</div>
+									{% endif %}
+
+									{% if position.匹配度原因 %}
+									<div class="mb-2">
+										<small class="text-dark">匹配原因：</small>
+										<small class="text-muted">{{ position.匹配度原因 }}</small>
+									</div>
+									{% endif %}
+
+									{% if position.职位链接 %}
+									<a href="{{ position.职位链接 }}" target="_blank" class="btn btn-sm btn-outline-primary">
+										查看职位详情
+									</a>
+									{% endif %}
+								</li>
+								{% endfor %}
+							</ul>
+							{% else %}
+							<div class="empty-content">
+								<i class="bi bi-info-circle text-muted" style="font-size: 3rem;"></i>
+								<p class="text-muted mt-3">暂无招聘信息</p>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// 标记重点按钮事件
+			        document.getElementById('markImportantBtn').addEventListener('click', function() {
+			            fetch(`/api/item/{{ item.id }}/mark_important`, {
+			                method: 'POST'
+			            })
+			            .then(response => response.json())
+			            .then(data => {
+			                if (data.success) {
+			                    document.getElementById('markImportantBtn').style.display = 'none';
+			                    document.getElementById('cancelImportantBtn').style.display = 'inline-block';
+			                }
+			            });
+			        });
+
+			        // 取消重点按钮事件
+			        document.getElementById('cancelImportantBtn').addEventListener('click', function() {
+			            fetch(`/api/item/{{ item.id }}/cancel_important`, {
+			                method: 'POST'
+			            })
+			            .then(response => response.json())
+			            .then(data => {
+			                if (data.success) {
+			                    document.getElementById('markImportantBtn').style.display = 'inline-block';
+			                    document.getElementById('cancelImportantBtn').style.display = 'none';
+			                }
+			            });
+			        });
+
+			        // 下载JSON按钮事件
+			        document.getElementById('downloadJsonBtn').addEventListener('click', function() {
+			            const jsonData = {{ item|tojson|safe }};
+			            const jsonString = JSON.stringify(jsonData, null, 2);
+
+			            const blob = new Blob([jsonString], {type: 'application/json'});
+			            const url = URL.createObjectURL(blob);
+			            const a = document.createElement('a');
+			            a.href = url;
+			            a.download = `项目_{{ item.id }}_{{ item.project_code }}.json`;
+			            document.body.appendChild(a);
+			            a.click();
+			            document.body.removeChild(a);
+			            URL.revokeObjectURL(url);
+			        });
+		</script>
+	</body>
+</html>
